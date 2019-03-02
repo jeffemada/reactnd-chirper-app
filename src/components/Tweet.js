@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import { TiArrowBackOutline, TiHeartFullOutline, TiHeartOutline } from 'react-icons/ti';
 import { connect } from 'react-redux';
+import { handleToggleTweet } from '../actions/tweets';
 import { formatDate, formatTweet } from '../utils/helpers';
 
 class Tweet extends Component {
   handleLike = (e) => {
     e.preventDefault();
-    //TODO: handle like tweet
+    const { dispatch, tweet, authedUser } = this.props;
+    dispatch(
+      handleToggleTweet({
+        id: tweet.id,
+        hasLiked: tweet.hasLiked,
+        authedUser
+      })
+    );
   };
 
   toParent = (e, id) => {
@@ -21,7 +29,7 @@ class Tweet extends Component {
       return <p>This Tweet doesn't existd</p>;
     }
 
-    const { name, avatar, timestamp, text, hasLiked, likes, replies, id, parent } = tweet;
+    const { name, avatar, timestamp, text, hasLiked, likes, replies, parent } = tweet;
 
     return (
       <div className="tweet">
