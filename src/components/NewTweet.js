@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { haddleAddTWeet } from '../actions/tweets';
 
 class NewTweet extends Component {
   state = {
-    text: ''
+    text: '',
+    toHome: false
   };
 
   handleChange = (e) => {
@@ -23,18 +25,19 @@ class NewTweet extends Component {
     dispatch(haddleAddTWeet(text, id));
 
     this.setState(() => ({
-      text: ''
+      text: '',
+      toHome: id ? false : true
     }));
   };
 
   render() {
     const TWEET_MAX_LENGTH = 280;
-    const { text } = this.state;
+    const { text, toHome } = this.state;
     const tweetLeft = TWEET_MAX_LENGTH - text.length;
 
-    /**
-     * TODO: Redirect to home view on submit
-     */
+    if (toHome === true) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <div>
